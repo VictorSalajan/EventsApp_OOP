@@ -3,15 +3,19 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Event:
+class Entity:
     __id: int
-    __date: datetime
-    __time: int
-    __description: str
 
     @property
     def id(self):
         return self.__id
+
+
+@dataclass
+class Event(Entity):                    # super called automatically
+    __date: datetime
+    __time: int
+    __description: str
 
     @property
     def date(self):
@@ -25,15 +29,11 @@ class Event:
     def description(self):
         return self.__description
 
+
 @dataclass
-class Person:
-    __id: int
+class Person(Entity):
     __name: str
     __address: str
-
-    @property
-    def id(self):
-        return self.__id
 
     @property
     def name(self):
@@ -43,7 +43,8 @@ class Person:
     def address(self):
         return self.__address
 
-@dataclass
+
+@dataclass                  # this is not similar enough to Entity to inherit from it
 class Enrollment:
     __event_id: int
     __person_id: int

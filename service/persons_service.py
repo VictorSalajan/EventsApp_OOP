@@ -1,10 +1,10 @@
 from repository.enrollments_repository import EnrollmentRepository
-from repository.persons_repository import PersonRepository
 from domain.entities import Person
+from repository.generic_repo import Repository
 
 
 class PersonService:
-    def __init__(self, person_repository: PersonRepository, enrollment_repository: EnrollmentRepository):
+    def __init__(self, person_repository: Repository, enrollment_repository: EnrollmentRepository):
         self.__person_repository = person_repository
         self.__enrollment_repository = enrollment_repository
 

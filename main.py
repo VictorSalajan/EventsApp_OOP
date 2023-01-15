@@ -1,11 +1,11 @@
 from repository.file_repository import EventFileRepository, PersonFileRepository, EnrollmentFileRepository
+from repository.generic_repo import Repository
 from ui.console import Console
-from repository.events_repository import EventRepository
-from repository.persons_repository import PersonRepository
 from repository.enrollments_repository import EnrollmentRepository
 from service.events_service import EventService
 from service.persons_service import PersonService
 from service.enrollments_service import EnrollmentService
+
 
 def choose_repository():
     while True:
@@ -14,8 +14,8 @@ def choose_repository():
         print("x. Exit")
         option = input("Choose the repository: ")
         if option == "1":
-            event_repository = EventRepository()
-            person_repository = PersonRepository()
+            event_repository = Repository()
+            person_repository = Repository()
             enrollment_repository = EnrollmentRepository(event_repository, person_repository)
             return event_repository, person_repository, enrollment_repository
         elif option == "2":
@@ -28,6 +28,7 @@ def choose_repository():
         else:
             print('Wrong option! Try again.')
 
+
 def main():
     event_repository, person_repository, enrollment_repository = choose_repository()
 
@@ -39,5 +40,6 @@ def main():
     console = Console(event_service, person_service, enrollment_service)
 
     console.menu()
+
 
 main()

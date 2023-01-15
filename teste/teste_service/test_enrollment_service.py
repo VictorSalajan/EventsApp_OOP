@@ -1,8 +1,7 @@
 from datetime import datetime
-from domain.entities import Event, Person, Enrollment
+from domain.entities import Event, Person
 from repository.enrollments_repository import EnrollmentRepository
-from repository.events_repository import EventRepository
-from repository.persons_repository import PersonRepository
+from repository.generic_repo import Repository
 from service.enrollments_service import EnrollmentService
 from unittest import TestCase
 
@@ -16,10 +15,10 @@ class TestEnrollmentService(TestCase):
         self.person2 = Person(2, "Anamaria Ionescu", "Strada Arinilor")
         self.person3 = Person(3, 'George Popescu', 'Str Arinilor')
 
-        self.event_repository = EventRepository()
+        self.event_repository = Repository()
         for event in [event1, event2, event3]:
             self.event_repository.save(event)
-        self.person_repository = PersonRepository()
+        self.person_repository = Repository()
         for person in [self.person1, self.person2, self.person3]:
             self.person_repository.save(person)
 
@@ -56,6 +55,7 @@ class TestEnrollmentService(TestCase):
         self.assertTrue(len(events_by_person) == 2)
         self.assertListEqual(self.enrollment_service.events_by_person(1), [])
         self.assertTrue(len(self.enrollment_service.events_by_person(3)) == 1)
+        self.assertTrue(self.enrollment_service.events_by_person(15) == [])
 
     def test_events_by_person_ordered_by_description(self):
         self.enrollment_service.save(1, 2)

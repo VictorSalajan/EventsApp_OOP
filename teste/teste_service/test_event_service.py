@@ -1,16 +1,15 @@
 from domain.entities import Enrollment, Person
 from repository.enrollments_repository import EnrollmentRepository
-from repository.persons_repository import PersonRepository
 from service.events_service import EventService
-from repository.events_repository import EventRepository
+from repository.generic_repo import Repository
 from datetime import datetime
 from unittest import TestCase
 
 
 class TestEventService(TestCase):
     def setUp(self):
-        self.event_repository = EventRepository()
-        self.person_repository = PersonRepository()
+        self.event_repository = Repository()
+        self.person_repository = Repository()
         self.enrollment_repository = EnrollmentRepository(self.event_repository, self.person_repository)
         self.event_service = EventService(self.event_repository, self.enrollment_repository)
         self.person1 = Person(1, "Ana", "Cluj")

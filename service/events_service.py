@@ -1,10 +1,10 @@
 from repository.enrollments_repository import EnrollmentRepository
-from repository.events_repository import EventRepository
 from domain.entities import Event
+from repository.generic_repo import Repository
 
 
 class EventService:
-    def __init__(self, event_repository: EventRepository, enrollment_repository: EnrollmentRepository):
+    def __init__(self, event_repository: Repository, enrollment_repository: EnrollmentRepository):
         self.__event_repository = event_repository
         self.__enrollment_repository = enrollment_repository
 

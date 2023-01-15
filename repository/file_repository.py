@@ -1,11 +1,10 @@
 from datetime import datetime
 from domain.entities import Event, Person, Enrollment
 from repository.enrollments_repository import EnrollmentRepository
-from repository.events_repository import EventRepository
-from repository.persons_repository import PersonRepository
+from repository.generic_repo import Repository
 
 
-class EventFileRepository(EventRepository):
+class EventFileRepository(Repository):
     def __init__(self, filename, enrollments_filename):
         super().__init__()
         self.__filename = filename
@@ -72,7 +71,8 @@ class EventFileRepository(EventRepository):
             for line in filtered_lines:
                 f.write(line)
 
-class PersonFileRepository(PersonRepository):
+
+class PersonFileRepository(Repository):
     def __init__(self, filename, enrollments_filename):
         super().__init__()
         self.__filename = filename
@@ -102,7 +102,7 @@ class PersonFileRepository(PersonRepository):
     def save(self, person):
         """
         Saves a Person object to in-memory repository and then appends it to file repository
-        :param event: Object of type Person
+        :param person: Object of type Person
         :return:
         """
         super().save(person)
@@ -114,7 +114,7 @@ class PersonFileRepository(PersonRepository):
         """
         Updates an Person object in the in-memory repository
         and then writes the updated repository to the file repository
-        :param event: Object of type Person
+        :param person: Object of type Person
         :return:
         """
         super().update(person)
@@ -138,6 +138,7 @@ class PersonFileRepository(PersonRepository):
         with open(self.__enrollments_filename, 'w') as f:
             for line in filtered_lines:
                 f.write(line)
+
 
 class EnrollmentFileRepository(EnrollmentRepository):
     def __init__(self, filename, event_repository, person_repository):    # these will be EventFile & PersonFile repos (passed in main)

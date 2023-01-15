@@ -1,14 +1,13 @@
 from domain.dto import EventNrParticipantsDTOAssembler, PersonNrEventsDTOAssembler
 from repository.enrollments_repository import EnrollmentRepository
-from repository.events_repository import EventRepository
-from repository.persons_repository import PersonRepository
 from domain.entities import Enrollment
 from collections import OrderedDict
+from repository.generic_repo import Repository
 
 
 class EnrollmentService:
-    def __init__(self, enrollment_repository: EnrollmentRepository, event_repository: EventRepository,
-                 person_repository: PersonRepository):
+    def __init__(self, enrollment_repository: EnrollmentRepository, event_repository: Repository,
+                 person_repository: Repository):
         self.__enrollment_repository = enrollment_repository
         self.__event_repository = event_repository
         self.__person_repository = person_repository
@@ -75,6 +74,8 @@ class EnrollmentService:
         :param person: object of type Person
         :return: list of objects of type Enrollment
         """
+        if person is None:                               # avoids None.id error
+            return []
         return [enroll for enroll in self.__enrollment_repository.find_all() if enroll.person_id == person.id]
 
     def create_person_dtos(self):
