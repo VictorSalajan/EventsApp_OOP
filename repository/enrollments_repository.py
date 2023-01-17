@@ -1,3 +1,4 @@
+from domain.exceptions.duplicate_error import DuplicateError
 
 
 class EnrollmentRepository:
@@ -20,7 +21,7 @@ class EnrollmentRepository:
             raise KeyError("Event or person with given ids do not exist!")
 
         if self.find_by_event_id_and_person_id(event_id, person_id):
-            raise KeyError("Person is already enrolled in this event!")
+            raise DuplicateError("Person is already enrolled in this event!")
 
         self.__enrollments.append(enrollment)
 

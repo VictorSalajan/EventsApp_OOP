@@ -1,4 +1,5 @@
 from domain.entities import Enrollment, Person
+from domain.event_validator import EventValidator
 from repository.enrollments_repository import EnrollmentRepository
 from service.events_service import EventService
 from repository.generic_repo import Repository
@@ -11,7 +12,8 @@ class TestEventService(TestCase):
         self.event_repository = Repository()
         self.person_repository = Repository()
         self.enrollment_repository = EnrollmentRepository(self.event_repository, self.person_repository)
-        self.event_service = EventService(self.event_repository, self.enrollment_repository)
+        self.event_validator = EventValidator()
+        self.event_service = EventService(self.event_repository, self.enrollment_repository, self.event_validator)
         self.person1 = Person(1, "Ana", "Cluj")
         self.person2 = Person(2, "Mihai", "Bucuresti")
         self.event_service.save(1, datetime(day=1, month=1, year=2000), 20, "Conferinta arte plastice")

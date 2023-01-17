@@ -1,3 +1,5 @@
+from domain.event_validator import EventValidator
+from domain.person_validator import PersonValidator
 from repository.file_repository import EventFileRepository, PersonFileRepository, EnrollmentFileRepository
 from repository.generic_repo import Repository
 from ui.console import Console
@@ -24,16 +26,22 @@ def choose_repository():
             enrollment_repository = EnrollmentFileRepository('data/enrollments', event_repository, person_repository)
             return event_repository, person_repository, enrollment_repository
         elif option == "x":
-             return
+            return
         else:
             print('Wrong option! Try again.')
 
 
 def main():
-    event_repository, person_repository, enrollment_repository = choose_repository()
+    repos = choose_repository()     # avoiding unpacking a NoneType object (option 'x')
+    if not repos:
+        return
+    event_repository, person_repository, enrollment_repository = repos
 
-    event_service = EventService(event_repository, enrollment_repository)       # enrollment is used for cascade delete
-    person_service = PersonService(person_repository, enrollment_repository)
+    event_validator = EventValidator()
+    person_validator = PersonValidator()
+
+    event_service = EventService(event_repository, enrollment_repository, event_validator)       # enrollment is used for cascade delete
+    person_service = PersonService(person_repository, enrollment_repository, person_validator)
 
     enrollment_service = EnrollmentService(enrollment_repository, event_repository, person_repository)
 

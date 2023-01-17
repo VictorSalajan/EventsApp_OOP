@@ -1,3 +1,5 @@
+from domain.exceptions.duplicate_error import DuplicateError
+from domain.exceptions.validation_error import ValidationError
 from service.events_service import EventService
 from service.persons_service import PersonService
 from service.enrollments_service import EnrollmentService
@@ -22,6 +24,10 @@ class Console:
             print(ex)
         except KeyError as ex:
             print(ex)
+        except ValidationError as ex:
+            print(ex)
+        except DuplicateError as ex:
+            print(ex)
 
     def update_event(self):
         try:
@@ -34,6 +40,8 @@ class Console:
         except ValueError as ex:
             print(ex)
         except KeyError as ex:
+            print(ex)
+        except ValidationError as ex:
             print(ex)
 
     def delete_event_by_id(self):
@@ -62,6 +70,10 @@ class Console:
             print(ex)
         except KeyError as ex:
             print(ex)
+        except ValidationError as ex:
+            print(ex)
+        except DuplicateError as ex:
+            print(ex)
 
     def update_person(self):
         try:
@@ -72,6 +84,8 @@ class Console:
         except ValueError as ex:
             print(ex)
         except KeyError as ex:
+            print(ex)
+        except ValidationError as ex:
             print(ex)
 
     def delete_person_by_id(self):
@@ -98,6 +112,8 @@ class Console:
         except ValueError as ex:
             print(ex)
         except KeyError as ex:
+            print(ex)
+        except DuplicateError as ex:
             print(ex)
 
     def update_enrollment(self):

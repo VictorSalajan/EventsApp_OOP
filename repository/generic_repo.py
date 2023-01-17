@@ -1,3 +1,4 @@
+from domain.exceptions.duplicate_error import DuplicateError
 
 
 class Repository:                             # instead of separate Event and Person repositories
@@ -11,7 +12,7 @@ class Repository:                             # instead of separate Event and Pe
         :return:
         """
         if self.find_by_id(entity.id):
-            raise KeyError("Duplicate id")
+            raise DuplicateError("Duplicate id")
         self.__entities[entity.id] = entity
 
     def update(self, entity):

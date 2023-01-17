@@ -1,12 +1,15 @@
+from domain.person_validator import PersonValidator
 from repository.enrollments_repository import EnrollmentRepository
 from domain.entities import Person
 from repository.generic_repo import Repository
 
 
 class PersonService:
-    def __init__(self, person_repository: Repository, enrollment_repository: EnrollmentRepository):
+    def __init__(self, person_repository: Repository, enrollment_repository: EnrollmentRepository,
+                 person_validator: PersonValidator):
         self.__person_repository = person_repository
         self.__enrollment_repository = enrollment_repository
+        self.__person_validator = person_validator
 
     def find_all(self):
         """
@@ -24,6 +27,7 @@ class PersonService:
         :return:
         """
         person = Person(person_id, name, address)
+        self.__person_validator.validate_person(person)
         self.__person_repository.save(person)
 
     def update(self, person_id, name, address):
@@ -35,6 +39,7 @@ class PersonService:
         :return:
         """
         new_person = Person(person_id, name, address)
+        self.__person_validator.validate_person(new_person)
         self.__person_repository.update(new_person)
 
     def delete_by_id(self, person_id):

@@ -1,12 +1,15 @@
+from domain.event_validator import EventValidator
 from repository.enrollments_repository import EnrollmentRepository
 from domain.entities import Event
 from repository.generic_repo import Repository
 
 
 class EventService:
-    def __init__(self, event_repository: Repository, enrollment_repository: EnrollmentRepository):
+    def __init__(self, event_repository: Repository, enrollment_repository: EnrollmentRepository,
+                 event_validator: EventValidator):
         self.__event_repository = event_repository
         self.__enrollment_repository = enrollment_repository
+        self.__event_validator = event_validator
 
     def find_all(self):
         """
@@ -25,6 +28,7 @@ class EventService:
         :return:
         """
         event = Event(event_id, date, time, description)
+        self.__event_validator.validate_event(event, self.__event_repository)
         self.__event_repository.save(event)
 
     def update(self, event_id, date, time, description):
@@ -37,6 +41,7 @@ class EventService:
         :return:
         """
         new_event = Event(event_id, date, time, description)
+        self.__event_validator.validate_event(new_event, self.__event_repository)
         self.__event_repository.update(new_event)
 
     def delete_by_id(self, event_id):
